@@ -26,30 +26,36 @@ def deleteItem():
         listbox.delete(index)
 
 def saveFile():
-    pass
+    fout = asksaveasfile(defaultextension = '.txt')
+    if fout is not None:
+        for item in listbox.get(0,END):
+            print(item.strip(), file = fout)
+        listbox.delete(0, END)
+        
 
 
+#creating buttons & placing them on screen
 openfilebtn = Button(master, text = 'OPEN', command = openFile, width = 20)
 dellistbtn = Button(master, text = 'DELETE', command = deleteItem, width = 20)
-savefilebtn = Button(master, text = 'SAVE', command = None, width = 20)
-addlistbtn = Button(master, text = 'ADD', command = None, width = 20)
+savefilebtn = Button(master, text = 'SAVE', command = saveFile, width = 20)
+addlistbtn = Button(master, text = 'ADD', command = addItem, width = 20)
 item = Entry(master, width = 20)
 
-openfilebtn.pack()
-dellistbtn.pack()
-savefilebtn.pack()
-addlistbtn.pack()
+openfilebtn.pack(anchor = 'n', side = LEFT)
+dellistbtn.pack(anchor = 'n', side = RIGHT)
+savefilebtn.pack(anchor = 'nw', side = LEFT)
+addlistbtn.pack(anchor = 'nw', side = RIGHT)
 item.pack()
 
 frame = Frame(master)
 scrollbar = Scrollbar(frame, orient = 'vertical')
-listbox = Listbox(frame, width = 75, yscrollcommand = scrollbar.set, bg = 'red')
+listbox = Listbox(frame, width = 50, yscrollcommand = scrollbar.set, bg = 'red')
 
 for i in range(1,16):
     listbox.insert(END, 'LIST ITEM  '+str(i))
 
 
-listbox.pack(side = LEFT, padx = 5)
+listbox.pack(side = LEFT, pady = 15)
 scrollbar.pack(side = RIGHT, fill = Y)
 scrollbar.config(command = listbox.yview)
 frame.pack()
